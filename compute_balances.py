@@ -4,7 +4,6 @@ from deprecated.encoding import decode
 
 from ipv8.attestation.trustchain.database import TrustChainDB
 
-day_stats = {}
 database_path = u"/Users/martijndevos/Documents/trustchain-db"
 db = TrustChainDB(database_path, "trustchain")
 print("Database opened!")
@@ -13,7 +12,7 @@ public_keys = []
 balances = {}
 
 # Load public keys
-with open("chain_lengths.csv", "r") as in_file:
+with open("identities.csv", "r") as in_file:
     did_header = False
     for line in in_file.readlines():
         if not did_header:

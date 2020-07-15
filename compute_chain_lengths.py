@@ -9,7 +9,7 @@ print("Database opened!")
 
 users_info = db.execute("SELECT DISTINCT public_key, COUNT(*) FROM blocks GROUP BY public_key")
 print("Fetch user info!")
-with open("chain_lengths.csv", "w") as out_file:
+with open("identities.csv", "w") as out_file:
     out_file.write("public_key,blocks\n")
     for user_info in users_info:
         out_file.write("%s,%d\n" % (hexlify(user_info[0]).decode(), user_info[1]))
