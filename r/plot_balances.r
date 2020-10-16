@@ -6,21 +6,27 @@ dat <- read.csv("../balances.csv")
 dat$balance <- dat$total_up - dat$total_down
 dat$total_up <- dat$total_up / 1024 / 1024 / 1024
 dat$total_down <- dat$total_down / 1024 / 1024 / 1024
-dat$freeride <- ifelse((dat$total_up - dat$total_down) < -5, "freerider", "no freerider")
+#dat$freeride <- ifelse((dat$total_up - dat$total_down) < -5, "freerider", "no freerider")
 dat$balance <- dat$balance / 1024 / 1024 / 1024
+dat <- dat[dat$balance < 10000,]
+dat <- dat[dat$balance > -10000,]
+
+print(max(dat$balance))
+print(min(dat$balance))
+
+#dat$balance <- dat$balance + min(dat$balance)
 
 # Scatter plot
-p <- ggplot(dat, aes(x=total_down, y=total_up, col=dat$freeride)) +
+p <- ggplot(dat, aes(x=total_down, y=total_up, color=balance)) +
             geom_point(size=0.5) +
-            scale_color_manual(values=c('red', 'green')) +
+            scale_color_continuous(low="red", high="green", trans="log10") +
             scale_x_log10(breaks=c(0.01, 1, 100, 10000)) +
             scale_y_log10() +
             xlab("Total download (GB)") +
             ylab("Total upload (GB)") +
             theme_bw() +
-            theme(legend.position = c(0.25, 0.83), legend.box.margin=margin(c(20,20,20,20)), legend.background = element_rect(color = "#333333", size = 0.7, linetype = "solid"), legend.text=element_text(size=12), legend.title=element_text(size=12, face="bold")) +
-            guides(color=guide_legend(title="Users"))
-ggsave(filename="balances_scatter.pdf", plot=p, width=4, height=3.5)
+            theme(legend.position=c(0.16, 0.76), legend.background = element_rect(color = "#333333", size = 0.7, linetype = "solid"))
+ggsave(filename="balances_scatter.pdf", plot=p, width=4.5, height=4)
 
 # p <- ggplot(dat, aes(balance)) +
 #      stat_ecdf(geom="step") +
