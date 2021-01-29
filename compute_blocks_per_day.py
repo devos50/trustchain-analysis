@@ -11,7 +11,7 @@ db = TrustChainDB(database_path, "trustchain")
 print("Database opened!")
 
 BATCH_SIZE = 500000
-TOTAL_BLOCKS = 2000000
+MAX_BLOCKS = -1
 
 unconfirmed_txs = set()
 unconfirmed_links = set()
@@ -26,8 +26,11 @@ def write_results():
 
 
 parsed_blocks = 0
-while parsed_blocks < TOTAL_BLOCKS:
+while True:
     blocks = list(db.execute("SELECT public_key, sequence_number, link_public_key, link_sequence_number, block_timestamp, type FROM blocks ORDER BY block_timestamp DESC LIMIT %d OFFSET %d" % (BATCH_SIZE, parsed_blocks)))
+    if len(blocks) == 0 or (MAX_BLOCKS != -1 and parsed_blocks >= MAX_BLOCKS):
+        break
+
     for block in blocks:
         if block[5] != b"tribler_bandwidth":
             continue
