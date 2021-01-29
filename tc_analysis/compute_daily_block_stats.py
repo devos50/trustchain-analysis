@@ -19,4 +19,4 @@ print("Writing statistics")
 with open("creation_stats.csv", "w") as output_file:
     output_file.write("day,blocks\n")
     for day, num_blocks in creation_info:
-        output_file.write("%s,%d\n" % (day, num_blocks))
+        output_file.write("%s,%d\n" % (day.decode(), num_blocks))
