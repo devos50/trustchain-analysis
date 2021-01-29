@@ -12,6 +12,6 @@ for user_info in users:
     lowest_unknown = db.get_lowest_sequence_number_unknown(pub_key)
     latest_block = db.get_latest(pub_key)
     if lowest_unknown != latest_block.sequence_number + 1:
-        print "Public key: %s" % pub_key.encode('hex')
-        print "Lowest unknown sequence number: %d" % lowest_unknown
-        print "Latest known block: %d" % latest_block.sequence_number
+        print("Public key: %s" % pub_key.encode('hex'))
+        print("Lowest unknown sequence number: %d" % lowest_unknown)
+        print("Latest known block: %d" % latest_block.sequence_number)

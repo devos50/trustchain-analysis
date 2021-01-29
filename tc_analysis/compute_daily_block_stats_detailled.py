@@ -1,13 +1,15 @@
 """
-This script outputs the bandwidth balances of all users in the dataset
+This script outputs a CSV file with the number of confirmed and unconfirmed blocks per day.
 """
 import datetime
 
 from ipv8.attestation.trustchain.database import TrustChainDB
 
+from tc_analysis import DB_PATH
+
 day_stats = {}
-database_path = u"/Users/martijndevos/Documents/trustchain-db"
-db = TrustChainDB(database_path, "trustchain")
+
+db = TrustChainDB(DB_PATH, "trustchain")
 print("Database opened!")
 
 BATCH_SIZE = 500000
@@ -19,7 +21,7 @@ tx_times = {}
 
 
 def write_results():
-    with open("creation_stats.csv", "w") as output_file:
+    with open("creation_stats_detailled.csv", "w") as output_file:
         output_file.write("day,confirmed,unconfirmed\n")
         for day, info in day_stats.items():
             output_file.write("%s,%d,%d\n" % (day, info["confirmed"], info["unconfirmed"]))
