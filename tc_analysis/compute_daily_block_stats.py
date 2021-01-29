@@ -9,7 +9,7 @@ db = TrustChainDB(DB_PATH, "trustchain")
 print("Database opened!")
 
 
-query = "select strftime('%d-%m-%Y', block_timestamp/1000, 'unixepoch'), COUNT(*) from blocks group by strftime('%d-%m-%Y', block_timestamp/1000, 'unixepoch') ORDER BY block_timestamp"
+query = "SELECT strftime('%d-%m-%Y', block_timestamp/1000, 'unixepoch'), COUNT(*) FROM blocks GROUP BY strftime('%d-%m-%Y', block_timestamp/1000, 'unixepoch') ORDER BY block_timestamp"
 res = list(db.execute(query))
 creation_info = []
 for day_info in res:
